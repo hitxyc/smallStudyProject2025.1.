@@ -1,0 +1,563 @@
+definitions:
+  entity.ResultEntity:
+    properties:
+      data:
+        description: 数据内容
+      message:
+        description: 响应消息
+        type: string
+      success:
+        description: 是否成功
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: 用户管理系统 API
+  version: "1.0"
+paths:
+  /email/deleteEmail:
+    post:
+      consumes:
+      - application/json
+      description: 根据发信者UID和收信者UID删除邮件
+      parameters:
+      - description: 发信者uid
+        in: body
+        name: senderUid
+        required: true
+        schema:
+          type: integer
+      - description: 收信者uid
+        in: body
+        name: receiverUid
+        required: true
+        schema:
+          type: integer
+      - description: 信件标题
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 删除邮件
+      tags:
+      - Email
+  /email/driftEmail:
+    post:
+      consumes:
+      - application/json
+      description: 发送漂流瓶邮件
+      parameters:
+      - description: 发信者uid
+        in: body
+        name: senderUid
+        required: true
+        schema:
+          type: integer
+      - description: 信件标题
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: 信件内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 漂流瓶功能
+      tags:
+      - Email
+  /email/receiveEmail:
+    get:
+      consumes:
+      - application/json
+      description: 根据发信者UID分页展示邮件
+      parameters:
+      - description: 收信者uid
+        in: query
+        name: receiverUid
+        required: true
+        type: integer
+      - description: 页码
+        in: query
+        name: pageNum
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 接收邮件并分页展示
+      tags:
+      - Email
+  /email/selectEmail:
+    get:
+      consumes:
+      - application/json
+      description: 根据关键词查询邮件
+      parameters:
+      - description: 收信者uid
+        in: query
+        name: receiverUid
+        required: true
+        type: integer
+      - description: 查询内容
+        in: query
+        name: keyword
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 根据标题和内容模糊查询邮件
+      tags:
+      - Email
+  /email/sendEmail:
+    post:
+      consumes:
+      - application/json
+      description: 发送一封邮件
+      parameters:
+      - description: 发信者uid
+        in: body
+        name: senderUid
+        required: true
+        schema:
+          type: integer
+      - description: 收信者uid
+        in: body
+        name: receiverUid
+        required: true
+        schema:
+          type: integer
+      - description: 信件标题
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: 信件内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 发送邮件
+      tags:
+      - Email
+  /email/timeEmail:
+    post:
+      consumes:
+      - application/json
+      description: 发送定时邮件
+      parameters:
+      - description: 发信者uid
+        in: body
+        name: senderUid
+        required: true
+        schema:
+          type: integer
+      - description: 收信者uid
+        in: body
+        name: receiverUid
+        required: true
+        schema:
+          type: integer
+      - description: 信件标题
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: 信件内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      - description: 多少分钟后发送
+        in: body
+        name: time
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 定时发送邮件
+      tags:
+      - Email
+  /group/insertGroup:
+    post:
+      consumes:
+      - application/json
+      description: 用户创建群组
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      - description: 群组名称
+        in: formData
+        name: groupName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 创建群组
+      tags:
+      - 用户群组管理
+  /group/sendEmailToAll:
+    post:
+      consumes:
+      - application/json
+      description: 群组内群发消息
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 群组名称
+        in: formData
+        name: groupName
+        required: true
+        type: string
+      - description: 邮件标题
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: 邮件内容
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 群发消息
+      tags:
+      - 用户群组管理
+  /list/add:
+    post:
+      consumes:
+      - application/json
+      description: 用户添加好友
+      parameters:
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 添加好友
+      tags:
+      - 好友管理
+  /list/agreeFriendAdd:
+    post:
+      consumes:
+      - application/json
+      description: 用户同意好友申请
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 同意好友申请
+      tags:
+      - 好友管理
+  /list/checkWhoAdd:
+    get:
+      consumes:
+      - application/json
+      description: 查看哪些用户申请添加当前用户为好友
+      parameters:
+      - description: 用户 UID
+        in: query
+        name: userUid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 查看好友申请
+      tags:
+      - 好友管理
+  /list/deleteFriend:
+    post:
+      consumes:
+      - application/json
+      description: 用户假删除好友
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 假删除好友
+      tags:
+      - 好友管理
+  /list/setRelationship:
+    post:
+      consumes:
+      - application/json
+      description: 用户设置好友亲密关系
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      - description: 亲密关系名称
+        in: formData
+        name: relationship
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 设置亲密关系
+      tags:
+      - 好友管理
+  /list/showAllFriend:
+    get:
+      consumes:
+      - application/json
+      description: 用户分页查看好友列表
+      parameters:
+      - description: 用户 UID
+        in: query
+        name: userUid
+        required: true
+        type: integer
+      - description: 页码（每页 10 个好友）
+        in: query
+        name: pageNum
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 查看好友列表
+      tags:
+      - 好友管理
+  /list/updateRemark:
+    post:
+      consumes:
+      - application/json
+      description: 用户更新好友备注
+      parameters:
+      - description: 用户 UID
+        in: formData
+        name: userUid
+        required: true
+        type: integer
+      - description: 好友 UID
+        in: formData
+        name: friendUid
+        required: true
+        type: integer
+      - description: 备注名称
+        in: formData
+        name: remark
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 更新好友备注
+      tags:
+      - 好友管理
+  /login/log:
+    post:
+      consumes:
+      - application/json
+      description: 用户通过用户名/UID 和密码登录，返回 JWT Token
+      parameters:
+      - description: 用户名
+        in: body
+        name: userName
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      - description: 用户 ID
+        in: body
+        name: uid
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 用户登录
+      tags:
+      - 用户管理
+  /login/saveUser:
+    post:
+      consumes:
+      - application/json
+      description: 注册新用户，返回用户的 UID
+      parameters:
+      - description: 用户名
+        in: body
+        name: userName
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ResultEntity'
+      summary: 注册用户
+      tags:
+      - 用户管理
+swagger: "2.0"
